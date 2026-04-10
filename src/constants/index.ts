@@ -1,5 +1,10 @@
 // ─── API ──────────────────────────────────────────────────────────────────────
-/** We can get another free key from https://timezonedb.com/register */
+/**
+ * We can get another free key from https://timezonedb.com/register 
+ * 
+ * The API key is not removed for demonstration purposes; in a production app, 
+ * it should be stored securely (in env file) and not exposed in client code.
+ * */
 export const TIMEZONEDB_API_KEY = '5G9X1WUKPF08';
 export const TIMEZONEDB_BASE_URL = 'https://api.timezonedb.com/v2.1';
 

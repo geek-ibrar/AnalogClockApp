@@ -130,7 +130,7 @@ interface HandProps {
 }
 
 const Hand = memo<HandProps>(({ angle, length, tailLen = 0, width, color }) => (
-  <G rotation={angle} origin={`${C}, ${C}`}>
+  <G transform={`rotate(${angle} ${C} ${C})`}>
     <Line
       x1={C}
       y1={C + tailLen}
