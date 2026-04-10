@@ -49,7 +49,7 @@ GPU-composited, and no trigonometry needed for positioning the line endpoints.
 
 1. On cold start, SQLite is queried immediately — if a cache exists, the UI
    shows timezones within milliseconds even with no network.
-2. The API is always contacted in parallel. On success the cache is atomically
+2. The API is always contacted in parallel. On success the cache is automically
    updated (single SQLite transaction) and the Redux store is refreshed.
 3. If the API fails the app continues with cached data and shows an
    "Offline mode" indicator to the user.
@@ -73,7 +73,7 @@ followed by a fresh `initializeTimezones()` dispatch.
 | Decision | Rationale |
 |---|---|
 | No `AsyncStorage` | The spec mandates SQLite; op-sqlite covers all use cases |
-| `@op-engineering/op-sqlite` | Best New Architecture (RN 0.76) support; JSI-based, no bridge overhead |
+| `@op-engineering/op-sqlite` | Best New Architecture (with RN 0.85) support; JSI-based, no bridge overhead |
 | `react-native-svg` | Not a clock library — just SVG primitives; keeps the "no prebuilt clock" constraint |
 | Single-screen app | Scope doesn't warrant navigation; HomeScreen is the only screen |
 | Pull-to-refresh | Gives the user manual control over API refresh without a dedicated button |
@@ -97,5 +97,5 @@ npx react-native run-ios
 npx react-native run-android
 ```
 
-**Don't forget** to replace `YOUR_TIMEZONEDB_API_KEY` in
-`src/constants/index.ts` with your free key from https://timezonedb.com/register.
+**Note** The `TIMEZONEDB_API_KEY` in
+`src/constants/index.ts` is not replaced, so the app can be easily build & evaluated
