@@ -1,97 +1,101 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Analog Clock App
 
-# Getting Started
+A React Native mobile application displaying a fully custom analog clock
+with multi-timezone support and offline-first SQLite persistence.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## Architecture Decisions
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### Component Breakdown
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+| Layer | Responsibility |
+|---|---|
+| `App.tsx` | Provider setup (Redux, SafeArea) |
+| `screens/HomeScreen` | Composes all features; drives data loading |
+| `components/AnalogClock` | Pure SVG clock — accepts `ClockTime`, renders hands |
+| `components/TimeZoneSelector` | Modal picker with live search |
+| `store/slices/timezoneSlice` | RTK slice + async thunks for load/select |
+| `services/api/timezoneApi` | HTTP fetch from TimezoneDB API |
+| `services/database/sqliteService` | All SQLite reads/writes (singleton connection) |
+| `hooks/useClock` | Ticks every second; converts UTC+offset → ClockTime |
+| `hooks/useOrientation` | Dimension listener → portrait/landscape |
 
-```sh
-# Using npm
-npm start
+### State Management — Redux Toolkit
 
-# OR using Yarn
-yarn start
+Redux Toolkit was chosen because:
+- `createAsyncThunk` makes the three-state (pending/fulfilled/rejected)
+  lifecycle of async operations explicit and boilerplate-free.
+- RTK's `immer`-powered reducers allow direct mutation syntax in reducers,
+  reducing cognitive overhead.
+- The store is the single source of truth for timezones and selected zone,
+  making the component tree trivially reactive.
+
+### Clock Rendering — react-native-svg
+
+The clock is drawn with `react-native-svg` primitives (`Circle`, `Line`, `G`).
+A fixed 200×200 SVG viewBox scales to any screen size — the component only
+changes the `width`/`height` props on the `<Svg>` element, so no math is
+repeated inside the SVG coordinate system.
+
+Hand rotation is applied via `<G rotation={angle} origin="100,100">` — clean,
+GPU-composited, and no trigonometry needed for positioning the line endpoints.
+
+---
+
+## Offline Caching Approach
+
+**Strategy: Stale-While-Revalidate**
+
+1. On cold start, SQLite is queried immediately — if a cache exists, the UI
+   shows timezones within milliseconds even with no network.
+2. The API is always contacted in parallel. On success the cache is atomically
+   updated (single SQLite transaction) and the Redux store is refreshed.
+3. If the API fails the app continues with cached data and shows an
+   "Offline mode" indicator to the user.
+4. The user's selected timezone is stored in a separate `user_preferences`
+   key-value table and restored on every launch.
+
+**Cache expiry:** Rows carry a `cachedAt` timestamp. After 24 hours the data
+is considered stale — it is still served immediately but the background
+refresh is treated as mandatory rather than optional.
+
+**Corruption recovery:** All DB operations are wrapped in try/catch.
+If SQLite cannot be opened at all, `db` remains `null` and every service
+function throws early, letting the app fall back to API-only mode.
+A "Reset cache" button in the error banner calls `clearAllCachedData()`
+followed by a fresh `initializeTimezones()` dispatch.
+
+---
+
+## Assumptions & Trade-offs
+
+| Decision | Rationale |
+|---|---|
+| No `AsyncStorage` | The spec mandates SQLite; op-sqlite covers all use cases |
+| `@op-engineering/op-sqlite` | Best New Architecture (RN 0.76) support; JSI-based, no bridge overhead |
+| `react-native-svg` | Not a clock library — just SVG primitives; keeps the "no prebuilt clock" constraint |
+| Single-screen app | Scope doesn't warrant navigation; HomeScreen is the only screen |
+| Pull-to-refresh | Gives the user manual control over API refresh without a dedicated button |
+| `getItemLayout` on FlatList | Timezone list can be 400+ rows; fixed height enables O(1) scroll-to-index |
+| No debounce on search | Native JS filter on 400 items is imperceptible; debounce would add latency |
+| Selected timezone validated on restore | Prevents showing a stale/removed zone after an API update |
+
+---
+
+## Setup
+
+```bash
+# 1. Clone & install
+npm install
+
+# 2. iOS
+cd ios && bundle exec pod install && cd ..
+npx react-native run-ios
+
+# 3. Android
+npx react-native run-android
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Don't forget** to replace `YOUR_TIMEZONEDB_API_KEY` in
+`src/constants/index.ts` with your free key from https://timezonedb.com/register.
