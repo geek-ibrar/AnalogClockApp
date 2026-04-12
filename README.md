@@ -3,6 +3,12 @@
 A React Native mobile application displaying a fully custom analog clock
 with multi-timezone support and offline-first SQLite persistence.
 
+## Preview
+
+<p align="center">
+   <img src="./preview.png" alt="Analog Clock App Preview" width="320" />
+</p>
+
 ---
 
 ## Architecture Decisions
