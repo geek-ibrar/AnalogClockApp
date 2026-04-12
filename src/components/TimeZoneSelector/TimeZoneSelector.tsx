@@ -13,7 +13,7 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TimeZone } from '../../types';
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// Helpers 
 
 /** Converts a raw gmtOffset (seconds) into a display string: "UTC+5:30" */
 const formatOffset = (gmtOffset: number): string => {
@@ -24,10 +24,10 @@ const formatOffset = (gmtOffset: number): string => {
   return `UTC${sign}${h}:${String(m).padStart(2, '0')}`;
 };
 
-// ─── List row height — required for getItemLayout optimisation ───────────────
+//  List row height — required for getItemLayout optimisation 
 const ITEM_HEIGHT = 66;
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+//  Sub-components 
 
 interface RowProps {
   item: TimeZone;
@@ -53,7 +53,7 @@ const TimezoneRow = memo<RowProps>(({ item, isSelected, onPress }) => (
   </Pressable>
 ));
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// Main Component 
 
 interface Props {
   timezones: TimeZone[];
@@ -213,7 +213,7 @@ const TimeZoneSelector: React.FC<Props> = ({
   );
 };
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+// Styles
 
 const styles = StyleSheet.create({
   // Trigger

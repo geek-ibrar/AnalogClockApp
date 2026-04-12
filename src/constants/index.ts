@@ -1,4 +1,4 @@
-// ─── API ──────────────────────────────────────────────────────────────────────
+// API
 /**
  * We can get another free key from https://timezonedb.com/register 
  * 
@@ -8,7 +8,7 @@
 export const TIMEZONEDB_API_KEY = '5G9X1WUKPF08';
 export const TIMEZONEDB_BASE_URL = 'https://api.timezonedb.com/v2.1';
 
-// ─── Database ─────────────────────────────────────────────────────────────────
+// Database 
 export const DB_NAME = 'analog_clock.db';
 export const TABLE_TIMEZONES = 'timezones';
 export const TABLE_PREFERENCES = 'user_preferences';
@@ -16,11 +16,11 @@ export const TABLE_PREFERENCES = 'user_preferences';
 /** Stale-while-revalidate: serve cache, refresh in background after 24h */
 export const CACHE_EXPIRY_MS = 24 * 60 * 60 * 1000;
 
-// ─── Layout ───────────────────────────────────────────────────────────────────
+// Layout
 /** Clock diameter = this ratio × shorter screen dimension */
 export const CLOCK_SIZE_RATIO = 0.82;
 
-// ─── Clock Visuals ────────────────────────────────────────────────────────────
+// Clock Visuals 
 export const CLOCK_THEME = {
   face: '#FEFEFE',
   faceStroke: '#1A1A2E',

@@ -9,7 +9,7 @@ import {
 } from '../../services/database/sqliteService';
 import { fetchTimezonesFromAPI } from '../../services/api/timezoneApi';
 
-// ─── Thunks ───────────────────────────────────────────────────────────────────
+// Thunks 
 
 /**
  * Bootstrap thunk — runs once on app start.
@@ -93,7 +93,7 @@ export const resetAndRefetch = createAsyncThunk(
   },
 );
 
-// ─── Slice ────────────────────────────────────────────────────────────────────
+// Slice
 
 const initialState: TimezoneState = {
   timezones: [],

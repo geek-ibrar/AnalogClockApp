@@ -5,7 +5,7 @@ import { CLOCK_SIZE_RATIO, CLOCK_THEME } from '../../constants';
 import { useOrientation } from '../../hooks/useOrientation';
 import { ClockTime } from '../../types';
 
-// ─── SVG coordinate constants (viewBox = 200×200) ─────────────────────────────
+// SVG coordinate constants (viewBox = 200×200) 
 const VB = 200;          // viewBox size
 const C = VB / 2;        // centre = 100
 const FACE_R = 88;       // clock face radius
@@ -15,7 +15,7 @@ const SEC_LEN = 74;      // second hand length
 const SEC_TAIL = 16;     // second hand counter-balance behind centre
 const NUM_R = FACE_R - 20; // radius for hour numerals
 
-// ─── Angle helpers ────────────────────────────────────────────────────────────
+// Angle helpers 
 
 /**
  * Converts clock time into rotation angles (degrees, 0° = 12 o'clock).
@@ -33,7 +33,7 @@ const toAngles = (time: ClockTime) => {
   };
 };
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// Sub-components
 
 /**
  * Renders all 60 tick marks (12 large hour ticks + 48 small minute ticks).
@@ -144,7 +144,7 @@ const Hand = memo<HandProps>(({ angle, length, tailLen = 0, width, color }) => (
   </G>
 ));
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// Main Component 
 
 interface AnalogClockProps {
   time: ClockTime;

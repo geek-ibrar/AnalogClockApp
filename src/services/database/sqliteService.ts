@@ -7,10 +7,10 @@ import {
   CACHE_EXPIRY_MS,
 } from '../../constants';
 
-// ─── Singleton DB connection ───────────────────────────────────────────────────
+// Singleton DB connection 
 let db: DB | null = null;
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+// Init 
 
 /**
  * Opens the SQLite database and creates tables if they don't exist.
@@ -49,7 +49,7 @@ export const initDatabase = async (): Promise<void> => {
   }
 };
 
-// ─── Timezones ─────────────────────────────────────────────────────────────────
+// Timezones 
 
 /**
  * Persists a fresh list of timezones into SQLite using a single transaction.
@@ -116,7 +116,7 @@ export const fetchTimezonesFromDB = async (): Promise<{
   return { timezones, isCacheStale };
 };
 
-// ─── Preferences ──────────────────────────────────────────────────────────────
+// Preferences 
 
 const PREF_KEY_TIMEZONE = 'selectedTimezone';
 
@@ -153,7 +153,7 @@ export const getSelectedTimezone = async (): Promise<TimeZone | null> => {
   }
 };
 
-// ─── Maintenance ──────────────────────────────────────────────────────────────
+// Maintenance 
 
 /**
  * Wipes all cached data. Called when cache corruption is detected.
