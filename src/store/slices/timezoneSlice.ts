@@ -26,7 +26,7 @@ export const initializeTimezones = createAsyncThunk(
     let cachedTimezones: TimeZone[] = [];
     let isOffline = false;
 
-    // ── Step 1: Load from SQLite (non-blocking fast path) ──
+    // Step 1: Load from SQLite (non-blocking fast path)
     try {
       const { timezones, isCacheStale } = await fetchTimezonesFromDB();
       cachedTimezones = timezones;
@@ -35,7 +35,7 @@ export const initializeTimezones = createAsyncThunk(
       console.warn('[Store] DB read failed, proceeding to API:', dbError);
     }
 
-    // ── Step 2: Fetch from API ──
+    // Step 2: Fetch from API 
     try {
       const fresh = await fetchTimezonesFromAPI();
       await saveTimezonesToDB(fresh);
@@ -52,7 +52,7 @@ export const initializeTimezones = createAsyncThunk(
       isOffline = true;
     }
 
-    // ── Step 3: Restore user preference ──
+    // Step 3: Restore user preference 
     let savedTimezone: TimeZone | null = null;
     try {
       savedTimezone = await getSelectedTimezone();
@@ -112,7 +112,7 @@ const timezoneSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // ── initializeTimezones ──
+    // initializeTimezones 
     builder.addCase(initializeTimezones.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -135,7 +135,7 @@ const timezoneSlice = createSlice({
       state.error = action.payload as string;
     });
 
-    // ── selectTimezone ──
+    // selectTimezone 
     builder.addCase(selectTimezone.fulfilled, (state, action) => {
       state.selectedTimezone = action.payload;
     });
