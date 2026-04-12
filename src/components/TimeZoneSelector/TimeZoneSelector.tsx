@@ -80,7 +80,7 @@ const TimeZoneSelector: React.FC<Props> = ({
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
 
-  // ── Filtered list ──
+  // Filtered list 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return timezones;
@@ -91,7 +91,7 @@ const TimeZoneSelector: React.FC<Props> = ({
     );
   }, [timezones, query]);
 
-  // ── Handlers ──
+  // Handlers 
   const openModal = useCallback(() => setModalVisible(true), []);
 
   const closeModal = useCallback(() => {
@@ -127,7 +127,7 @@ const TimeZoneSelector: React.FC<Props> = ({
     [],
   );
 
-  // ── Trigger button label ──
+  // Trigger button label 
   const buttonLabel = loading
     ? 'Loading timezones…'
     : selectedTimezone
@@ -136,7 +136,7 @@ const TimeZoneSelector: React.FC<Props> = ({
 
   return (
     <>
-      {/* ── Trigger button ── */}
+      {/* Trigger button */}
       <TouchableOpacity
         style={[styles.trigger, (loading || timezones.length === 0) && styles.triggerDisabled]}
         onPress={openModal}
@@ -154,7 +154,7 @@ const TimeZoneSelector: React.FC<Props> = ({
         <Text style={styles.chevron}>▾</Text>
       </TouchableOpacity>
 
-      {/* ── Full-screen modal ── */}
+      {/* Full-screen modal */}
       <Modal
         visible={modalVisible}
         animationType="slide"

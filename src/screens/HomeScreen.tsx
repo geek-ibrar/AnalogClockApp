@@ -36,7 +36,7 @@ const HomeScreen: React.FC = () => {
   const orientation = useOrientation();
   const isLandscape = orientation === 'landscape';
 
-  // ── Bootstrap ──────────────────────────────────────────────────────────────
+  // Bootstrap 
   useEffect(() => {
     (async () => {
       await initDatabase();        // open / create SQLite tables
@@ -44,7 +44,7 @@ const HomeScreen: React.FC = () => {
     })();
   }, [dispatch]);
 
-  // ── Handlers ───────────────────────────────────────────────────────────────
+  // Handlers 
   const handleSelect = useCallback(
     (tz: TimeZone) => dispatch(selectTimezone(tz)),
     [dispatch],
@@ -65,7 +65,7 @@ const HomeScreen: React.FC = () => {
     [dispatch],
   );
 
-  // ── Derived display values ─────────────────────────────────────────────────
+  // Derived display values 
   const digitalTime = `${pad(time.hours)}:${pad(time.minutes)}:${pad(time.seconds)}`;
   const showInitialLoader = loading && timezones.length === 0;
 
