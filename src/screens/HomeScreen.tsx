@@ -88,7 +88,7 @@ const HomeScreen: React.FC = () => {
         }
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Header bar ── */}
+        {/* Header bar */}
         <View style={styles.header}>
           <Text style={styles.appName}>Analog Clock</Text>
           {isOffline && (
@@ -98,7 +98,7 @@ const HomeScreen: React.FC = () => {
           )}
         </View>
 
-        {/* ── Clock + Info (side-by-side in landscape) ── */}
+        {/* Clock + Info (side-by-side in landscape) */}
         <View style={[styles.clockRow, isLandscape && styles.clockRowLandscape]}>
           {/* Clock face */}
           <AnalogClock time={time} />
@@ -128,7 +128,7 @@ const HomeScreen: React.FC = () => {
           </View>
         </View>
 
-        {/* ── Error banner ── */}
+        {/* Error banner */}
         {error && (
           <View style={styles.errorBanner}>
             <Text style={styles.errorMsg}>{error}</Text>
@@ -143,7 +143,7 @@ const HomeScreen: React.FC = () => {
           </View>
         )}
 
-        {/* ── Timezone selector ── */}
+        {/* Timezone selector */}
         <View style={styles.selectorSection}>
           <Text style={styles.selectorHeading}>Time Zone</Text>
 
