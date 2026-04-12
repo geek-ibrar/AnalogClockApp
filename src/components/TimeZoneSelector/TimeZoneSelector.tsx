@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TimeZone } from '../../types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -165,7 +165,7 @@ const TimeZoneSelector: React.FC<Props> = ({
         <View style={[styles.modal, { paddingTop: insets.top }]}>
 
           {/* Header */}
-          <View style={styles.modalHeader}>
+          <SafeAreaView style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Select Time Zone</Text>
             <TouchableOpacity
               onPress={closeModal}
@@ -173,7 +173,7 @@ const TimeZoneSelector: React.FC<Props> = ({
             >
               <Text style={styles.closeBtn}>✕</Text>
             </TouchableOpacity>
-          </View>
+          </SafeAreaView>
 
           {/* Search */}
           <View style={styles.searchWrap}>

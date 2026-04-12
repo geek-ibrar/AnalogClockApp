@@ -43,6 +43,7 @@ const Markers = memo(() => {
   const marks = useMemo(() => {
     const result = [];
     for (let i = 0; i < 60; i++) {
+      // Deg to Rad = (angle in degrees × π) / 180
       const rad = (i * 6 * Math.PI) / 180;
       const isHour = i % 5 === 0;
       const outerR = FACE_R - 2;
