@@ -161,6 +161,7 @@ const TimeZoneSelector: React.FC<Props> = ({
         transparent={false}
         statusBarTranslucent
         onRequestClose={closeModal}
+        supportedOrientations={['portrait', 'landscape-left', 'landscape-right']}
       >
         <View style={[styles.modal, { paddingTop: insets.top }]}>
 
